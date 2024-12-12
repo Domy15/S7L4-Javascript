@@ -3,12 +3,15 @@
 const url = "https://api.pexels.com/v1/search?query=";
 let dataMount;
 let dataSun;
+let dataValue;
 const btnLoad = document.getElementById("btnLoad");
 const btnLoad2 = document.getElementById("btnLoad2");
 const img = document.querySelectorAll(".card-img-top");
 const div = document.querySelectorAll(".col-md-4");
 const btnRemove = document.querySelectorAll(".btnRemove");
 const mins = document.querySelectorAll(".id");
+const form = document.getElementById("form");
+const searchBar = document.getElementById("search");
 
 document.addEventListener("load", init());
 
@@ -48,6 +51,21 @@ async function getData2() {
     });
 }
 
+async function getData3(value) {
+    await fetch(url + value, {
+        headers: {
+            Authorization: 'IXXKMRLxYnyVyn3813UoEnfRhIo2cZQJwQmUL2U790ZGb5zCnxGNqL7v'
+        }
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        dataValue = data.photos;
+        console.log(dataSun);       
+    }).catch((error) => {
+        console.log(error);
+    });
+}
+
 btnLoad.addEventListener("click", function (e) {
     e.preventDefault();
     for (let i = 0; i < img.length; i++) {
@@ -70,4 +88,27 @@ function remove() {
             div[i].style.display = "none";
         })
     }
+}
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    search(searchBar.value);
+});
+
+async function search(value) {
+    await fetch(url + value, {
+        headers: {
+            Authorization: 'IXXKMRLxYnyVyn3813UoEnfRhIo2cZQJwQmUL2U790ZGb5zCnxGNqL7v'
+        }
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        dataValue = data.photos;
+    }).catch((error) => {
+        console.log(error);
+    });
+    for (let i = 0; i < img.length; i++) {
+        img[i].setAttribute("src", `${dataValue[i].src.medium}`);
+        mins[i].innerHTML = `${dataValue[i].id}`;
+    };
 }
