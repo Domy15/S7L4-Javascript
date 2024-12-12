@@ -30,7 +30,7 @@ async function getData() {
         return response.json();
     }).then((data) => {
         dataMount = data.photos;
-        console.log(dataMount);
+        imgNext(data.photos);
     }).catch((error) => {
         console.log(error);
     });
@@ -45,22 +45,7 @@ async function getData2() {
         return response.json();
     }).then((data) => {
         dataSun = data.photos;
-        console.log(dataSun);       
-    }).catch((error) => {
-        console.log(error);
-    });
-}
-
-async function getData3(value) {
-    await fetch(url + value, {
-        headers: {
-            Authorization: 'IXXKMRLxYnyVyn3813UoEnfRhIo2cZQJwQmUL2U790ZGb5zCnxGNqL7v'
-        }
-    }).then((response) => {
-        return response.json();
-    }).then((data) => {
-        dataValue = data.photos;
-        console.log(dataSun);       
+        imgNext(data.photos);
     }).catch((error) => {
         console.log(error);
     });
@@ -104,6 +89,7 @@ async function search(value) {
         return response.json();
     }).then((data) => {
         dataValue = data.photos;
+        imgNext(data.photos);
     }).catch((error) => {
         console.log(error);
     });
@@ -111,4 +97,13 @@ async function search(value) {
         img[i].setAttribute("src", `${dataValue[i].src.medium}`);
         mins[i].innerHTML = `${dataValue[i].id}`;
     };
+}
+
+function imgNext(data) {
+    for (let i = 0; i < img.length; i++) {
+        img[i].addEventListener("click", function () {
+            sessionStorage.setItem("data", JSON.stringify(data[i]));
+            location.href = "img.html";
+        });
+    }[]
 }
